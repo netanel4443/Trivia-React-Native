@@ -1,0 +1,7 @@
+export const NAVIGATE='navigate'
+export const CHANGE_QUESTION_TEXT_COLOR='changeQuestionTextColor'
+export const GET_QUESTIONS='getQeustions'
+export const UPDTAE_PLAYER_DETAILS='updatePlayerDetails'
+export const GET_PLAYER_DETAILS='getPlayerDetails'
+export const ENABLE_OR_DISABLE_ANSWER_BTNS='enableOrDisableAnswerBtns'
+export const GAME_OVER='gameOver'
