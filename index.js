@@ -19,7 +19,10 @@ const trivia=()=>(
  <NavigationContainer>
   <Stack.Navigator initialRouteName="MainScreen">
      <Stack.Screen name="MainScreen" component={MainScreen} />
-     <Stack.Screen name="GameScreen" component={GameScreen} />
+     <Stack.Screen name="GameScreen" component={GameScreen}
+     options={{
+      headerLeft:null
+     }} />
    </Stack.Navigator>
  </NavigationContainer>
  </Provider>

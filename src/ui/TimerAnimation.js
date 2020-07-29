@@ -2,13 +2,13 @@ import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
 import React, {useState} from 'react' 
 import { Animated } from 'react-native';
 
-const TimerAnimation = ({reset,duration,actionWhenTimeIsUp}) =>{
+const TimerAnimation = ({reset,duration,actionWhenTimeIsUp,isPlaying}) =>{
 
 
 return (
   <CountdownCircleTimer
     key={reset}
-    isPlaying
+    isPlaying={isPlaying}
     size={100}
     duration={duration}
     colors={[

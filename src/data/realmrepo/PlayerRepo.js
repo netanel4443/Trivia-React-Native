@@ -1,6 +1,6 @@
 import { Observable, observable, from, Scheduler, asapScheduler, asyncScheduler } from "rxjs"
-import { playerDetailsDatabaseOptions ,PLAYER_DETAILS_SCHEMA} from '../PlayerDetailsSchema'
 import { subscribeOn , observeOn} from "rxjs/operators";
+import { playerDetailsDatabaseOptions ,PLAYER_DETAILS_SCHEMA} from '../PlayerDetailsSchema'
 const Realm = require('realm');
 
 
@@ -22,12 +22,13 @@ export const savePlayerDetails=()=>{
       .subscribe(console.log)
 }
 
-export const getPlayerDetailss=()=>{
+export const getPlayerDetails=()=>{
     // from(Realm.open(playerDetailsDatabaseOptions))
     return new Observable(sub=>{
         Realm.open(playerDetailsDatabaseOptions).then(realm=>{
           const realmObjects=  realm.objects(PLAYER_DETAILS_SCHEMA)
-            console.log(realmObjects)
-        })
+              console.log(realmObjects)
+              sub.next(realmObjects[0].playerName)
+        }).catch((e)=> console.log('savePlayerDetails '+{e}))
     })
 }
