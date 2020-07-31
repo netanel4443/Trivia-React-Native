@@ -2,7 +2,7 @@ import React from 'react'
 import { View, StyleSheet, TouchableOpacity,Text } from 'react-native'
 import { Dialog } from 'react-native-simple-dialogs';
 
-const GameOverDialog = ({visible,showOrHideFunc,playerDetails,playerName}) => {
+const GameOverDialog = ({visible,showOrHideFunc,playerDetails}) => {
    
     return (
         <Dialog
@@ -11,7 +11,7 @@ const GameOverDialog = ({visible,showOrHideFunc,playerDetails,playerName}) => {
             title="Custom Dialog"
             onTouchOutside={() => {okBtnOnClick(showOrHideFunc)}} >
             <View >
-              <Text>Name: {playerName}</Text>
+              <Text>Name: {playerDetails.name}</Text>
               <Text>Score:{playerDetails.score}</Text>  
               <Text>level:{playerDetails.level}</Text>  
              <TouchableOpacity  style={styles.okBtn} onPress={()=>okBtnOnClick(showOrHideFunc)} ><Text>Ok</Text></TouchableOpacity>

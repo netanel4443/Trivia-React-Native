@@ -1,6 +1,7 @@
 import { Observable,interval } from "rxjs"
 import {take} from 'rxjs/operators'
-import {getPlayerDetails} from '../data/realmrepo/PlayerRepo'
+import * as repo from '../data/realmrepo/PlayerRepo'
+
 
 export const timerCountDown=(time)=>{
   return  interval(1000).pipe(take(time))
@@ -11,12 +12,12 @@ export const test=(body,time)=>{
    setTimeout(() => {  body()  }, time);
 }
 
-export const savePlayerDetailsToDatabase=()=>{
-   
+export const savePlayerDetailsToDatabase=(playerDetails)=>{
+      return repo.savePlayerDetails(playerDetails)
 }
 
 export const getPlayerDetailsFromRepo=()=>{
-   return getPlayerDetails()
+   return repo.getPlayerDetails()
 }
   
      

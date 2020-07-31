@@ -1,4 +1,5 @@
 export const NAVIGATE='navigate'
+export const START_ALL_QUESTIONS_GAME='startAllQuestionsGame'
 export const CHANGE_QUESTION_TEXT_COLOR='changeQuestionTextColor'
 export const GET_QUESTIONS='getQeustions'
 export const UPDTAE_PLAYER_DETAILS='updatePlayerDetails'

@@ -8,12 +8,13 @@ export const PlayerDetailsSchema={
     properties:{
         playerName:'string',
         bestScore:'int',
-        diamonds:'int'
+        diamonds:'int',
+        bestLevel:'int'
     }
 };
 
 export const playerDetailsDatabaseOptions={
     path:'playeDetails.realm',
     schema:[PlayerDetailsSchema],
-    schemaVersion:0,
+    schemaVersion:1,
 };

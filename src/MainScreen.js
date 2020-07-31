@@ -1,25 +1,35 @@
 import { Text, StyleSheet, View, TouchableOpacity } from 'react-native'
 import React from 'react'
+import { useDispatch,useSelector } from 'react-redux'
+import { useEffect } from 'react'
+import * as actions from './actions/mainScreenActions'
 
 function  MainScreen({ navigation }) {
     
+    const dispatch = useDispatch()
+    const playerDetails = useSelector(state => state.gameReducer.playerDetails)
+
+    useEffect(() => {
+     dispatch(actions.getPlayerDetails())
+    }, [])
+
     return (
         <View style={styles.mainContainer}>
             <View style={styles.playerDetails}>
-              <Text > {getPlayetDetails()} </Text>
+              <Text > {getPlayerDetails(playerDetails)} </Text>
             </View>
-            <TouchableOpacity style={styles.startGameBtn} onPress={()=>startGame(navigation)} ><Text>Start game</Text></TouchableOpacity>
+            <TouchableOpacity style={styles.startGameBtn} onPress={()=>startGame(navigation,dispatch)} ><Text>Start game</Text></TouchableOpacity>
         </View>
-
     )
 }
 
-const startGame=(navigation)=>{
-  navigation.navigate('GameScreen')
+const startGame=(navigation,dispatch)=>{
+    dispatch(actions.startAllQuestionsGame())
+   navigation.navigate('GameScreen')
 }
 
-const getPlayetDetails=()=>{
-    return 'Name : Netanel\nscore : 0\nlevel : 0'
+const getPlayerDetails=(playerDetails)=>{
+    return `score ${playerDetails.score } \n level:  ${playerDetails.level}`
 }
 
 

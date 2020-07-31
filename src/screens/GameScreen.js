@@ -1,21 +1,20 @@
-import { Text, StyleSheet, View, ImageBackground, BackHandler } from 'react-native'
+import { Text, StyleSheet, View, ImageBackground, BackHandler , AppState } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import backgroundImage from '../images/question.jpg'
 import * as actions from '../actions/mainScreenActions'
 import { useDispatch,useSelector ,shallowEqual } from "react-redux";
-import React, { useEffect , useState } from 'react';
+import React, { useEffect ,useRef } from 'react';
 import TimerAnimation from '../ui/TimerAnimation'
 import GameOverDialog from '../ui/GameOverDialog'
 import { useFocusEffect } from '@react-navigation/native';
 
-
   function GameScreen({navigation})  {
    
     const dispatch= useDispatch()
-    
+    const appState = useRef(AppState.currentState);
     const {questions,score,level,color,disabled,
-           gameOverDialogVisibillity,playerDetails,name,isTimerPlaying,
-           timerAnimationKey}= useSelector(state => ({
+           gameOverDialogVisibillity,playerDetails,isTimerPlaying,
+           }= useSelector(state => ({
       questions: state.gameReducer.questions,
       level: state.gameReducer.level,
       score: state.gameReducer.score,
@@ -23,9 +22,7 @@ import { useFocusEffect } from '@react-navigation/native';
       disabled: state.gameReducer.disabled,
       gameOverDialogVisibillity: state.gameReducer.gameOverDialogVisibillity,
       playerDetails: state.gameReducer.playerDetails,
-      name:state.gameReducer.name,
       isTimerPlaying:state.gameReducer.isTimerPlaying,
-      timerAnimationKey:state.gameReducer.timerAnimationKey,
     }),shallowEqual);
     
     const {duration} = useSelector(state => 
@@ -39,23 +36,61 @@ import { useFocusEffect } from '@react-navigation/native';
       dispatch(actions.stopOrResumeTimer(true))
       },[]);
      
-
+      //android hardware back button
       useFocusEffect(
         React.useCallback(() => {
           const onBackPress = () => {
             showGameOverDialog(dispatch,true)
             return true
           }
-         
           BackHandler.addEventListener('hardwareBackPress', onBackPress);
     
           return () =>
             BackHandler.removeEventListener('hardwareBackPress', onBackPress);
         }, [])
       )
+      
+      //detect action/background/inactive state
+      useEffect(() => {
+         AppState.addEventListener("change", _handleAppStateChange);
+    
+        return () => {
+          AppState.removeEventListener("change", _handleAppStateChange);
+        };
+      }, []);
+    
+      const _handleAppStateChange = (nextAppState) => {
+        if (appState.current.match(/inactive|background/) &&  nextAppState === "active" ) {
+             dispatch(actions.stopOrResumeTimer(true))
+        }
+        else if(appState.current.match(/active/) && nextAppState==="background"){
+            dispatch(actions.stopOrResumeTimer(false))
+            dispatch(actions.savePlayerDetailsToRepo(playerDetails))
+        }
+          
+        appState.current = nextAppState;
+        console.log("AppState", appState.current);
+      };
+      
+      //detect blur 
+      useEffect(() => {
+        const unsubscribe = navigation.addListener('blur', () => {
+        
+         dispatch(actions.savePlayerDetailsToRepo(playerDetails))
+        },[]);
+    
+        return unsubscribe;
+      }, [navigation]);
 
-
- 
+      //detect focus
+      useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+   
+        });
+    
+        return unsubscribe;
+      }, [navigation]);
+      
     return (
         <View style={styles.mainContainer}>
         <ImageBackground
@@ -64,8 +99,9 @@ import { useFocusEffect } from '@react-navigation/native';
           source={backgroundImage}
         >
         <View style={styles.playerDetailsDesign}>
-          <Text> score: {playerDetails.score} </Text>
-          <Text> level: {playerDetails.level} </Text>
+          {console.log(`${score}, ${level}`)}
+          <Text> score: {score} </Text>
+          <Text> level: {level} </Text>
         </View>
           
         <View style={styles.timer}>
@@ -74,7 +110,6 @@ import { useFocusEffect } from '@react-navigation/native';
           duration={duration} 
           actionWhenTimeIsUp={()=>showGameOverDialog(dispatch,true)} 
           isPlaying={isTimerPlaying}
-
           />
         </View>
        
@@ -95,7 +130,6 @@ import { useFocusEffect } from '@react-navigation/native';
           visible={gameOverDialogVisibillity} 
           showOrHideFunc={()=> onBackPressed(dispatch,gameOverDialogVisibillity,navigation) } 
           playerDetails={playerDetails}
-          playerName={name}
          />
         </View>
     )  
