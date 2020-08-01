@@ -31,7 +31,6 @@ import { useFocusEffect } from '@react-navigation/native';
   
     
     useEffect(() => {
-      dispatch(actions.getQuestions())
       dispatch(actions.getPlayerDetails())
       dispatch(actions.stopOrResumeTimer(true))
       },[]);
@@ -136,7 +135,6 @@ import { useFocusEffect } from '@react-navigation/native';
 }
 
 
-
 const showGameOverDialog=(dispatch,visible)=>{
   dispatch(actions.stopOrResumeTimer(false))
   dispatch(actions.showGameOverDialog(visible))
@@ -146,6 +144,7 @@ const onBackPressed=(dispatch,gameOverDialogVisibillity,navigation)=>{
   showGameOverDialog(dispatch,!gameOverDialogVisibillity)
   navigation.goBack()  
 }
+
 
 
 const styles = StyleSheet.create({

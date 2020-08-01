@@ -1,4 +1,5 @@
 export const NAVIGATE='navigate'
+export const SHOW_CUSTOM_GAME_MODAL='showCustomGameModal'
 export const START_ALL_QUESTIONS_GAME='startAllQuestionsGame'
 export const CHANGE_QUESTION_TEXT_COLOR='changeQuestionTextColor'
 export const GET_QUESTIONS='getQeustions'

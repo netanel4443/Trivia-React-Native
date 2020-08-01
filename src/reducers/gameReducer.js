@@ -1,5 +1,6 @@
 import * as actionTypes from "../actions/types/actionTypes";
 import { PlayerDetails } from "../data/PlayerDetails";
+import { questions } from "../actions/mainScreenActions";
 
 const initialState={
     score:0,
@@ -9,6 +10,7 @@ const initialState={
     disabled:false,
     playerDetails: new PlayerDetails(0,0,0,""),
     gameOverDialogVisibillity:false,
+    customGameModalVisibility:false,
     duration:3,
     isTimerPlaying:true,
 }
@@ -17,11 +19,17 @@ const initialState={
 
     switch (action.type){
         case actionTypes.NAVIGATE:
-    
+          
             return {
                 ...state,
                 screen:action.screen
             }
+        
+        case actionTypes.SHOW_CUSTOM_GAME_MODAL:
+            return{
+                ...state,
+                customGameModalVisibility:action.visibillity
+            }   
         
         case actionTypes.START_ALL_QUESTIONS_GAME:
          

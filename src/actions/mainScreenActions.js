@@ -28,8 +28,16 @@ export const startAllQuestionsGame=()=>{
     }
 }
 
+export const showCustomGameModal=(visibillity)=>{
+    return{
+        type:actionTypes.SHOW_CUSTOM_GAME_MODAL,
+        visibillity:visibillity
+    }
+}
+
+
 export const savePlayerDetailsToRepo=(playerDetails)=>{
-    // playerDetails.level=0
+    // playerDetails.level=0  for reset player details should be removed its just for me
     // playerDetails.score=0
 
     var tmpDetails={...playerDetails}
